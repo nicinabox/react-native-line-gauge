@@ -1,0 +1,22 @@
+{
+  "name": "react-native-linear-gauge",
+  "version": "1.0.0",
+  "description": "A sliding linear gauge (or rule) to pick values easily",
+  "main": "LinearGauge.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "react-component",
+    "react-native",
+    "ios"
+  ],
+  "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)",
+  "license": "ISC",
+  "dependencies": {
+    "lodash.times": "^4.3.2"
+  },
+  "peerDependencies": {
+    "react-native": ">=0.20.0"
+  }
+}
