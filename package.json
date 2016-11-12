@@ -2,7 +2,7 @@
   "name": "react-native-linear-gauge",
   "version": "1.0.0",
   "description": "A sliding linear gauge (or rule) to pick values easily",
-  "main": "LinearGauge.js",
+  "main": "LineGauge.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
