@@ -17,6 +17,6 @@
     "lodash.times": "^4.3.2"
   },
   "peerDependencies": {
-    "react-native": ">=0.20.0"
+    "react-native": ">=0.26.0"
   }
 }
