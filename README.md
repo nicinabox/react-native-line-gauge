@@ -13,7 +13,7 @@ Note: This component is only the slide-y bits in the center. You'll want to add 
 ## Usage
 
 ```javascript
-<LineGauge min={0} max={100} onChange={this._handleGaugeChange} />
+<LineGauge min={0} max={100} value={42} onChange={this._handleGaugeChange} />
 ```
 
 ## Props
@@ -24,14 +24,8 @@ min | 1 | minimum value to render
 max | 100 | maximum value to render
 largeInterval | 10 | makes a long tick every `largeInterval`
 mediumInterval | 5 | makes a medium tick every `mediumInterval`
-initialValue | | sets the scroll offset to match this value on initial render
+value | | sets the scroll offset to match this value render
 onChange | `noop` | returns current value on scroll
-
-## API
-
-Method | Description
--------|------------
-`value(number)`| Translates value to scroll position. Call using ref
 
 ## Showcase
 
