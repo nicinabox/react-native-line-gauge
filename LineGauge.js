@@ -14,7 +14,7 @@ const GAUGE_WIDTH = Math.floor(Dimensions.get('window').width)
 const INTERVAL_WIDTH =  18
 
 const scale = (v, inputMin, inputMax, outputMin, outputMax) => {
-  return Math.floor(((v - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin)
+  return Math.round(((v - inputMin) / (inputMax - inputMin)) * (outputMax - outputMin) + outputMin)
 }
 
 export default class LineGauge extends Component {
