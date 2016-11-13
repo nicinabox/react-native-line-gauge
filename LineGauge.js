@@ -22,40 +22,74 @@ export default class LineGauge extends Component {
     super(props)
 
     this._handleScroll = this._handleScroll.bind(this)
+    this._handleScrollEnd = this._handleScrollEnd.bind(this)
+    this._handleContentSizeChange = this._handleContentSizeChange.bind(this)
 
     this.scrollMin = 0
     this.scrollMax = this._getScrollMax(props)
+    this._scrollQueue = null
+    this._value = props.value || props.min
 
     this.state = {
-      contentOffset: this._scaleValue(props.initialValue || props.min),
+      contentOffset: this._scaleValue(this._value),
     }
   }
 
   componentWillReceiveProps(nextProps) {
     this.scrollMax = this._getScrollMax(nextProps)
+
+    if (nextProps.value !== this._value) {
+      this._setScrollQueue({
+        x: this._scaleValue(nextProps.value, nextProps),
+        animate: true,
+      })
+
+      if (!this._contentSizeWillChange(nextProps)) {
+        this._resolveScrollQueue()
+      }
+    }
   }
 
-  value(val) {
-    this.setState({
-      contentOffset: this._scaleValue(val)
-    })
+  _contentSizeWillChange(nextProps) {
+    let { min, max } = nextProps
+    if (min !== this.props.min || max !== this.props.max) {
+      return true
+    }
+
+    return false
   }
 
   _getScrollMax(props = this.props) {
     return (props.max - props.min) * INTERVAL_WIDTH
   }
 
-  _scaleScroll(x) {
-    let { min, max } = this.props
+  _scaleScroll(x, props = this.props) {
+    let { min, max } = props
     return scale(x, this.scrollMin, this.scrollMax, min, max)
   }
 
-  _scaleValue(v) {
-    let { min, max } = this.props
+  _scaleValue(v, props = this.props) {
+    let { min, max } = props
     return scale(v, min, max, this.scrollMin, this.scrollMax)
   }
 
+  _setScrollQueue(scrollTo) {
+    this._scrollQueue = scrollTo
+  }
+
+  _resolveScrollQueue() {
+    if (this._scrollQueue !== null) {
+      this._scrollView && this._scrollView.scrollTo(this._scrollQueue)
+    }
+  }
+
+  _handleContentSizeChange() {
+    this._resolveScrollQueue()
+  }
+
   _handleScroll(event) {
+    if (this._scrollQueue) return
+
     let offset = event.nativeEvent.contentOffset.x
     let { min, max } = this.props
 
@@ -63,7 +97,15 @@ export default class LineGauge extends Component {
     val = val < min ? min : val
     val = val > max ? max : val
 
-    this.props.onChange(val)
+    if (val !== this._value) {
+      this._value = val
+      this.props.onChange(val)
+    }
+  }
+
+  _handleScrollEnd() {
+    this._value = this.props.value
+    this._scrollQueue = null
   }
 
   _getIntervalSize(val) {
@@ -99,6 +141,7 @@ export default class LineGauge extends Component {
     return (
       <View style={styles.container}>
         <ScrollView
+          ref={r => this._scrollView = r}
           automaticallyAdjustInsets={false}
           horizontal={true}
           decelerationRate={0}
@@ -106,6 +149,8 @@ export default class LineGauge extends Component {
           snapToAlignment="start"
           showsHorizontalScrollIndicator={false}
           onScroll={this._handleScroll}
+          onMomentumScrollEnd={this._handleScrollEnd}
+          onContentSizeChange={this._handleContentSizeChange}
           scrollEventThrottle={100}
           contentOffset={{ x: this.state.contentOffset }}>
 
@@ -125,7 +170,7 @@ LineGauge.propTypes = {
   max: PropTypes.number,
   largeInterval: PropTypes.number,
   mediumInterval: PropTypes.number,
-  initialValue: PropTypes.number,
+  value: PropTypes.number,
   onChange: PropTypes.func
 }
 
