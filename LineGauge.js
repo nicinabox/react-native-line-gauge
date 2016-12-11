@@ -80,6 +80,7 @@ export default class LineGauge extends Component {
   _resolveScrollQueue() {
     if (this._scrollQueue !== null) {
       this._scrollView && this._scrollView.scrollTo(this._scrollQueue)
+      this._handleScrollEnd()
     }
   }
 
