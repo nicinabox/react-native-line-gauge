@@ -95,8 +95,6 @@ export default class LineGauge extends Component {
     let { min, max } = this.props
 
     let val = this._scaleScroll(offset)
-    val = val < min ? min : val
-    val = val > max ? max : val
 
     if (val !== this._value) {
       this._value = val
