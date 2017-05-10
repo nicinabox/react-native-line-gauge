@@ -14,7 +14,8 @@
   "author": "Nic Haynes <nic@nicinabox.com> (http://nicinabox.com)",
   "license": "ISC",
   "dependencies": {
-    "lodash.times": "^4.3.2"
+    "lodash.times": "^4.3.2",
+    "prop-types": "^15.5.8"
   },
   "peerDependencies": {
     "react-native": ">=0.26.0"
