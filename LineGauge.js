@@ -128,10 +128,10 @@ export default class LineGauge extends Component {
       return (
         <View key={`val-${i}`} style={styles.intervalContainer}>
           {intervalSize === 'large' && (
-            <Text style={styles.intervalValue}>{val}</Text>
+            <Text style={[styles.intervalValue, this.props.styles.intervalValue]}>{val}</Text>
           )}
 
-          <View style={[styles.interval, styles[intervalSize]]}/>
+          <View style={[styles.interval, styles[intervalSize], this.props.styles.interval, this.props.styles[intervalSize]]}/>
         </View>
       )
     })
@@ -139,7 +139,7 @@ export default class LineGauge extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.styles.container]}>
         <ScrollView
           ref={r => this._scrollView = r}
           automaticallyAdjustInsets={false}
@@ -154,12 +154,12 @@ export default class LineGauge extends Component {
           scrollEventThrottle={100}
           contentOffset={{ x: this.state.contentOffset }}>
 
-          <View style={styles.intervals}>
+          <View style={[styles.intervals, this.props.styles.intervals]}>
             {this._renderIntervals()}
           </View>
         </ScrollView>
 
-        <View style={styles.centerline} />
+        <View style={[styles.centerline, this.props.styles.centerline]} />
       </View>
     )
   }
@@ -171,7 +171,8 @@ LineGauge.propTypes = {
   largeInterval: PropTypes.number,
   mediumInterval: PropTypes.number,
   value: PropTypes.number,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  styles: PropTypes.object,
 }
 
 LineGauge.defaultProps = {
@@ -179,7 +180,8 @@ LineGauge.defaultProps = {
   max: 100,
   mediumInterval: 5,
   largeInterval: 10,
-  onChange: () => {}
+  onChange: () => {},
+  styles: {},
 }
 
 var styles = StyleSheet.create({
